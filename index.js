@@ -35,20 +35,51 @@ var hasClass = function (selector, element) {
 	return false;
 };
 
-/* (event) -> none
+/* (event, bool, element) -> none
 
 Should reveal and hide a number field's manipulation ui
 */
-var numManipulator = function (evt) {
-	if (hasClass("cm-number", evt.target)) {
-		evt.target.style.background = "red";
-		// return true;
+var toggleNumManipulator = function (evt, mouseOn, numInput) {
+
+	// // THIS MAY BE WORSE FOR SPEED, I SUSPECT SPEED IS GOING
+	// // TO BE AN ISSUE FOR US
+	// if (!numInput && hasClass("cm-number", evt.target)) {
+	// 	evt.target.style.background = "red";
+	// 	numInput = evt.target;
+	// }
+	// else if (numInput && !hasClass("cm-number", evt.target)) {
+	// 	numInput.style.background = "none";
+	// 	numInput = null;
+	// }
+	// // For testing
+	// // else {console.log("That was not a number");}
+	// return numInput;
+
+	// THIS MAY BE BETTER FOR SPEED
+	// Save some memory because mouseOn is faster
+	// to check, don't have to check the class each time
+	if (!mouseOn) {
+		numInput.style.background = "red";
+		// Add elements
+		// Add event listener
+		mouseOn = true;
+	}
+	else if (mouseOn && !hasClass("cm-number", evt.target)) {
+		numInput.style.background = "blue";
+		// remove event listener
+		// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.removeEventListener
+		// remove elements
+		mouseOn = false;
 	}
 	// For testing
 	// else {console.log("That was not a number");}
+	return mouseOn;
 };
 
 //--- EVENT LISTENERS ---\\
+var numInput = null;
+var mouseOn = false;
+
 // document mousemove event listener. I don't know what else to do.
 // Multiple code editors might be created or we might put the class
 // onto other number fields as well, and they'll be dynamically
@@ -56,5 +87,21 @@ var numManipulator = function (evt) {
 // Sources (2)
 document.addEventListener("mousemove",
 	 function(evt) {
-		numManipulator(evt);
+
+		if (hasClass("cm-number", evt.target)) {
+			numInput = evt.target;
+		}
+
+		if (numInput) {
+			mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
+			if (!mouseOn && numInput) {
+				numInput = null;
+			}
+		}
+
+		// numInput = toggleNumManipulator(evt, mouseOn, numInput);
+		// console.log(numInput);
+		// THE BELOW MAYBE BETTER FOR SPEED
+		// mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
+		console.log(mouseOn);
 	});
