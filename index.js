@@ -41,31 +41,14 @@ Should reveal and hide a number field's manipulation ui
 */
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
-	// // THIS MAY BE WORSE FOR SPEED, I SUSPECT SPEED IS GOING
-	// // TO BE AN ISSUE FOR US
-	// if (!numInput && hasClass("cm-number", evt.target)) {
-	// 	evt.target.style.background = "red";
-	// 	numInput = evt.target;
-	// }
-	// else if (numInput && !hasClass("cm-number", evt.target)) {
-	// 	numInput.style.background = "none";
-	// 	numInput = null;
-	// }
-	// // For testing
-	// // else {console.log("That was not a number");}
-	// return numInput;
-
-	// THIS MAY BE BETTER FOR SPEED
-	// Save some memory because mouseOn is faster
-	// to check, don't have to check the class each time
 	if (!mouseOn) {
-		numInput.style.background = "red";
+		numInput.style.background = "lightblue";
 		// Add elements
 		// Add event listener
 		mouseOn = true;
 	}
-	else if (mouseOn && !hasClass("cm-number", evt.target)) {
-		numInput.style.background = "blue";
+	else if (mouseOn && evt.target != numInput) {
+		numInput.style.background = "none";
 		// remove event listener
 		// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.removeEventListener
 		// remove elements
@@ -81,27 +64,24 @@ var numInput = null;
 var mouseOn = false;
 
 // document mousemove event listener. I don't know what else to do.
-// Multiple code editors might be created or we might put the class
-// onto other number fields as well, and they'll be dynamically
-// generated.
-// Sources (2)
+// Things will be dynamically generated.
+// !!! HAVE TO FIGURE OUT WHAT HAPPENS WHEN TABBING THROUGH INPUTS OR
+// MOVING CURSOR AROUND TEXT !!!
 document.addEventListener("mousemove",
 	 function(evt) {
 
+	 	// -- Number Manipulation -- \\
+	 	// Whenever a number input is moused over, make it the current numInput
 		if (hasClass("cm-number", evt.target)) {
 			numInput = evt.target;
 		}
 
+		// Only run the num input checker if we're on a num input
 		if (numInput) {
 			mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
 			if (!mouseOn && numInput) {
+				// Reset numInput so this isn't run again
 				numInput = null;
 			}
 		}
-
-		// numInput = toggleNumManipulator(evt, mouseOn, numInput);
-		// console.log(numInput);
-		// THE BELOW MAYBE BETTER FOR SPEED
-		// mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
-		console.log(mouseOn);
-	});
+});  // end on document mousemove
