@@ -35,6 +35,15 @@ var hasClass = function (selector, element) {
 	return false;
 };
 
+
+/*
+
+*/
+
+var placeElems = function () {
+
+};
+
 /* (event, bool, element) -> none
 
 Should reveal and hide a number field's manipulation ui
@@ -43,7 +52,9 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
 	if (!mouseOn) {
 		numInput.style.background = "lightblue";
-		// Add elements
+		// Add elements - these will be absolutely positioned
+
+
 		// Add event listener
 		mouseOn = true;
 	}
@@ -85,3 +96,24 @@ document.addEventListener("mousemove",
 			}
 		}
 });  // end on document mousemove
+
+// FOR TABBING THROUGH INPUTS? (test implementation later)
+// Possibly change focus with mousemove, but that sounds like it could get annoying
+// document.addEventListener("focus",
+// 	 function(evt) {
+
+// 	 	// -- Number Manipulation -- \\
+// 	 	// Whenever a number input is moused over, make it the current numInput
+// 		if (hasClass("cm-number", evt.target)) {
+// 			numInput = evt.target;
+// 		}
+
+// 		// Only run the num input checker if we're on a num input
+// 		if (numInput) {
+// 			mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
+// 			if (!mouseOn && numInput) {
+// 				// Reset numInput so this isn't run again
+// 				numInput = null;
+// 			}
+// 		}
+// });  // end on document focus
