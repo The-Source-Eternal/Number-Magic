@@ -18,6 +18,11 @@ var codeEditor = CodeMirror(document.body, {
 	, stylesheet: "css/sqlcolors.css"
 });
 
+// numManipulator will move and change depending on the element
+var numManipulator = document.createElement("div");
+numManipulator.className = "num-manip";
+document.body.appendChild(numManipulator);
+
 //--- FUNCTIONS ---\\ (has to come before calling the functions)
 /* (string, element) -> bool
 
@@ -40,7 +45,7 @@ var hasClass = function (selector, element) {
 
 */
 
-var placeElems = function () {
+var placeElems = function (originElem) {
 
 };
 
@@ -71,8 +76,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 };
 
 //--- EVENT LISTENERS ---\\
-var numInput = null;
-var mouseOn = false;
+var numInput = null, mouseOn = false;
 
 // document mousemove event listener. I don't know what else to do.
 // Things will be dynamically generated.

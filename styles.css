@@ -6,3 +6,10 @@
 .CodeMirror {
 	height: 100%;
 }
+
+.num-manip {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	background-color: red;
+}
