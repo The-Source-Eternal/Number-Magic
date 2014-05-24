@@ -55,14 +55,16 @@ Should reveal and hide a number field's manipulation ui
 */
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
+	// var numManip
+
 	if (!mouseOn) {
 		// Test ()
 		numInput.style.background = "lightblue";
 		// Not test sometime in future
 		// Position element in the right place
 		// Make it appear
-		document.getElementsByClassName("num-manip")[0]
-			.style.display = "inline";
+		numManipulator.style.display = "inline";
+
 		mouseOn = true;
 	}
 	else if (mouseOn && evt.target != numInput) {
@@ -70,8 +72,8 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		numInput.style.background = "none";
 		// Not test sometime in future
 		// Hide element
-		document.getElementsByClassName("num-manip")[0]
-			.style.display = "none";
+		numManipulator.style.display = "none";
+
 		mouseOn = false;
 	}
 	// For testing
