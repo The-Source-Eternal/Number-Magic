@@ -56,16 +56,22 @@ Should reveal and hide a number field's manipulation ui
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
 	if (!mouseOn) {
+		// Test ()
 		numInput.style.background = "lightblue";
-		// Add elements - these will be absolutely positioned
-		// Add event listener
+		// Not test sometime in future
+		// Position element in the right place
+		// Make it appear
+		document.getElementsByClassName("num-manip")[0]
+			.style.display = "inline";
 		mouseOn = true;
 	}
 	else if (mouseOn && evt.target != numInput) {
+		// Test
 		numInput.style.background = "none";
-		// remove event listener
-		// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.removeEventListener
-		// remove elements
+		// Not test sometime in future
+		// Hide element
+		document.getElementsByClassName("num-manip")[0]
+			.style.display = "none";
 		mouseOn = false;
 	}
 	// For testing
