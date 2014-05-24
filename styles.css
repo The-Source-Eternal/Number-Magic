@@ -9,8 +9,8 @@
 
 .num-manip {
 	position: absolute;
-	width: 100px;
-	height: 100px;
+	width: 2rem;
+	height: 1.7rem;
 	background-color: red;
-	display: none;
+	visibility: hidden;
 }

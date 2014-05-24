@@ -21,6 +21,7 @@ var codeEditor = CodeMirror(document.body, {
 // numManipulator will move and change depending on the element
 var numManipulator = document.createElement("div");
 numManipulator.className = "num-manip";
+// !!! APPEND TO CODE MIRROR INSTEAD
 document.body.appendChild(numManipulator);
 
 //--- FUNCTIONS ---\\ (has to come before calling the functions)
@@ -55,15 +56,31 @@ Should reveal and hide a number field's manipulation ui
 */
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
-	// var numManip
+	console.log(evt.target);
+
+	// For a really long number it will be incredibly annoying
+	// to go to the center of the number to get to manipulate it :P
+	var numPosL = numInput.getBoundingClientRect().left
+	, numPosT = numInput.getBoundingClientRect().top
+	, numPosHzCenter = numInput.getBoundingClientRect().width/2
+	, numPosHeight = numInput.getBoundingClientRect().height
+
+	, manipL = (numPosL + numPosHzCenter) - numManipulator.getBoundingClientRect().width/2
+	;
+
+	// console.log(numManipulator.getBoundingClientRect().width/2);
+	// Also bottom and right
+	// console.log(numInput.getBoundingClientRect());
 
 	if (!mouseOn) {
 		// Test ()
 		numInput.style.background = "lightblue";
 		// Not test sometime in future
 		// Position element in the right place
+		numManipulator.style.left = (manipL) + "px";
+		numManipulator.style.top = numPosT + "px";
 		// Make it appear
-		numManipulator.style.display = "inline";
+		numManipulator.style.visibility = "visible";
 
 		mouseOn = true;
 	}
@@ -72,7 +89,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		numInput.style.background = "none";
 		// Not test sometime in future
 		// Hide element
-		numManipulator.style.display = "none";
+		numManipulator.style.visibility = "hidden";
 
 		mouseOn = false;
 	}
@@ -111,7 +128,7 @@ var changeNum = function (input) {
 			return "same";
 		}
 		// If it is out of bounds, we want to change the numInput
-		// DO I NEED THIS?
+		// !!! DO I NEED THIS?
 		else {return null;}
 	}
 
