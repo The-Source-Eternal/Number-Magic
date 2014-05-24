@@ -58,8 +58,6 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	if (!mouseOn) {
 		numInput.style.background = "lightblue";
 		// Add elements - these will be absolutely positioned
-
-
 		// Add event listener
 		mouseOn = true;
 	}
@@ -75,14 +73,25 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	return mouseOn;
 };
 
-var changeNum = function (evt) {
-	var changeX = evt.deltaX, changeY = evt.deltaY, changeZ = evt.deltaZ;
-	var changeCombo = changeX + changeY + changeZ;
-	var newNum = (parseFloat(evt.target.innerHTML) + Math.floor(-changeCombo/500));
-	console.log(newNum);
-	evt.target.innerHTML = newNum.toString();
-	// testing
-	// console.log(parseFloat(evt.target.innerHTML) + -changeCombo);
+/* (event, num) -> None
+
+Adds or subtracts integers to a number in the codemirror editing
+element. If it's an event, it uses input's deltas to do so,
+otherwise it treats input as a number value.
+*/
+var changeNum = function (input) {
+	// We're having some trouble here for some reason. Scrolling down
+	// sometimes turns the whole line into NaN (not just the number).
+	// Seems to happen when scrolling down slowly. Scrolling down quickly
+	// works fine. Lowest I got going slowly was "2", when scrolling faster
+	// got to 0 and below.
+	if (input.type == "wheel") {
+		var changeX = input.deltaX, changeY = input.deltaY, changeZ = input.deltaZ;
+		var changeCombo = changeX + changeY + changeZ;
+		var newNum = (parseFloat(input.target.innerHTML) + Math.floor(-changeCombo/10));
+		console.log(newNum);
+		input.target.innerHTML = newNum.toString();
+	}
 };
 
 //--- EVENT LISTENERS ---\\
