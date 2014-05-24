@@ -125,12 +125,13 @@ document.addEventListener("mousemove",
 // DETECT WHEEL EVENT ON NUMBERS (only know it detects trackpad two finger)
 // Latest Chrome and Firefox take "wheel" (05/24/14)
 document.addEventListener("wheel", function (evt) {
-	// Testing
-	console.log(evt.deltaX);
+	if (numInput) {// Testing
+		console.log(evt.deltaX);}
 });  // end on document wheel
 
 // Browser compatibility
 document.addEventListener("mousewheel", function (evt) {
-	console.log(evt.deltaX);
+	if (numInput) {// Testing
+		console.log(evt.deltaX);}
 });  // end on document mousewheel
 
