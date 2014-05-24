@@ -13,7 +13,7 @@
 //--- SETUP ---\\
 // Code mirror is added in javascript mode
 var codeEditor = CodeMirror(document.body, {
-	value: "function myScript(){return 100;}\n"
+	value: "function myScript(){return 10;}\n"
 	, path: "codemirror/js/"
 	, stylesheet: "css/sqlcolors.css"
 });
@@ -76,9 +76,13 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 };
 
 var changeNum = function (evt) {
-	var changeX = evt.deltaX, changeY = evt.deltaY;
+	var changeX = evt.deltaX, changeY = evt.deltaY, changeZ = evt.deltaZ;
+	var changeCombo = changeX + changeY + changeZ;
+	var newNum = (parseFloat(evt.target.innerHTML) + Math.floor(-changeCombo/500));
+	console.log(newNum);
+	evt.target.innerHTML = newNum.toString();
 	// testing
-	console.log(changeX + changeY);
+	// console.log(parseFloat(evt.target.innerHTML) + -changeCombo);
 };
 
 //--- EVENT LISTENERS ---\\
