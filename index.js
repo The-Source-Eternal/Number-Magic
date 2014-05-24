@@ -86,25 +86,28 @@ var changeNum = function (input) {
 	// works fine. Lowest I got going slowly was "2", when scrolling faster
 	// got to 0 and below.
 	if (input.type == "wheel") {
-		var changeX = input.deltaX, changeY = input.deltaY, changeZ = input.deltaZ;
-		console.log([changeX, changeY, changeZ]);
-		var changeCombo = changeX + changeY + changeZ;
-		var newNum = (parseFloat(input.target.textContent) + Math.trunc(-changeCombo/30));
-		console.log(newNum);
-		// Sometimes mouse goes out of bounds but this funciton is still called.
+		var changeX = input.deltaX, changeY = input.deltaY * -1, changeZ = input.deltaZ;
+		// Combine the number, decrease it, then truncate it
+		var changeCombo = (changeX + changeY + changeZ)/5
+		, comboAbs = Math.abs(changeCombo)
+		, comboSign = changeCombo/comboAbs || 1
+		, changeComboInt = comboSign * (comboAbs - (comboAbs % 1));
+
+		var newNum = (parseFloat(input.target.textContent)
+			+ changeComboInt);
+		// When the mouse doesn't move, but the number gets smaller and
+		// and the mouse is no longer over it, it goes out of bounds,
+		// but this funciton is still called. Stop that from ruining stuff.
 		if (!isNaN(newNum)){
 			input.target.textContent = newNum.toString();
+			return "same";
 		}
+		// If it is out of bounds, we want to change the numInput
+		// DO I NEED THIS?
+		else {return null;}
 	}
-	/* Gets me NaN
-	[5, -19, 0] then 0 then [1, 1, 0] NaN
-	[-0, -122, 0] -87 [-0, -113, 0] NaN
-	[-0, 1, 0] 8 [-0, 1, 0] NaN
-	[3, -22, 0] -254 [-0, -53, 0] NaN
-	[-5, 252, 0] -150 [3, 64, 0] NaN 
-	*/
-	// When zoomed in, sometimes "NaN" is deposited on the next line, not in the number span
-	// Try: Put the scroll event handler *before* the mousemove handler
+
+	else {return "function not done yet";}
 };
 
 //--- EVENT LISTENERS ---\\
@@ -155,16 +158,19 @@ document.addEventListener("mousemove",
 // });  // end on document focus
 
 // DETECT WHEEL EVENT ON NUMBERS (only know it detects trackpad two finger)
-// Latest Chrome and Firefox take "wheel" (05/24/14)
+// Latest Chrome and Firefox take "wheel", neither works in
+// Safari (05/24/14)
 document.addEventListener("wheel", function (evt) {
 	if (numInput) {
+		// Should I change numInput when NaN?
 		changeNum(evt);
 	}
 });  // end on document wheel
 
-// Browser compatibility
+// Browser compatibility?
 document.addEventListener("mousewheel", function (evt) {
 	if (numInput) {
+		// Should I change numInput when NaN?
 		changeNum(evt);
 	}
 });  // end on document mousewheel
