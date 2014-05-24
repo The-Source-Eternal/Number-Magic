@@ -89,9 +89,12 @@ var changeNum = function (input) {
 		var changeX = input.deltaX, changeY = input.deltaY, changeZ = input.deltaZ;
 		console.log([changeX, changeY, changeZ]);
 		var changeCombo = changeX + changeY + changeZ;
-		var newNum = (parseFloat(input.target.textContent) + Math.floor(-changeCombo/10));
+		var newNum = (parseFloat(input.target.textContent) + Math.trunc(-changeCombo/30));
 		console.log(newNum);
-		input.target.textContent = newNum.toString();
+		// Sometimes mouse goes out of bounds but this funciton is still called.
+		if (!isNaN(newNum)){
+			input.target.textContent = newNum.toString();
+		}
 	}
 	/* Gets me NaN
 	[5, -19, 0] then 0 then [1, 1, 0] NaN
@@ -101,6 +104,7 @@ var changeNum = function (input) {
 	[-5, 252, 0] -150 [3, 64, 0] NaN 
 	*/
 	// When zoomed in, sometimes "NaN" is deposited on the next line, not in the number span
+	// Try: Put the scroll event handler *before* the mousemove handler
 };
 
 //--- EVENT LISTENERS ---\\
