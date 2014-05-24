@@ -65,9 +65,15 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	, numPosHzCenter = numInput.getBoundingClientRect().width/2
 	, numPosHeight = numInput.getBoundingClientRect().height
 
-	, manipL = (numPosL + numPosHzCenter) - numManipulator.getBoundingClientRect().width/2
+	// Why don't I have to add numPosHzCenter to numPosL first?
+	// For some reason posL is in the center of the number
+	, manipL = numPosL - numManipulator.getBoundingClientRect().width/2
 	;
 
+	console.log(numPosL, numPosHzCenter, numManipulator.getBoundingClientRect().width/2);
+
+
+	numInput.appendChild(numManipulator);
 	// console.log(numManipulator.getBoundingClientRect().width/2);
 	// Also bottom and right
 	// console.log(numInput.getBoundingClientRect());
@@ -78,13 +84,13 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		// Not test sometime in future
 		// Position element in the right place
 		numManipulator.style.left = (manipL) + "px";
-		numManipulator.style.top = numPosT + "px";
+		numManipulator.style.top = "0px"; //numPosT + "px";
 		// Make it appear
 		numManipulator.style.visibility = "visible";
 
 		mouseOn = true;
 	}
-	else if (mouseOn && evt.target != numInput) {
+	else if (mouseOn && evt.target != numInput && evt.target != numManipulator) {
 		// Test
 		numInput.style.background = "none";
 		// Not test sometime in future
@@ -154,6 +160,7 @@ document.addEventListener("mousemove",
 		// Only run the num input checker if we're on a num input
 		if (numInput) {
 			mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
+			// If the mouse is no longer on numInput
 			if (!mouseOn && numInput) {
 				// Reset numInput so this isn't run again
 				numInput = null;
