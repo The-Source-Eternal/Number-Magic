@@ -75,6 +75,12 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	return mouseOn;
 };
 
+var changeNum = function (evt) {
+	var changeX = evt.deltaX, changeY = evt.deltaY;
+	// testing
+	console.log(changeX + changeY);
+};
+
 //--- EVENT LISTENERS ---\\
 var numInput = null, mouseOn = false;
 
@@ -125,13 +131,16 @@ document.addEventListener("mousemove",
 // DETECT WHEEL EVENT ON NUMBERS (only know it detects trackpad two finger)
 // Latest Chrome and Firefox take "wheel" (05/24/14)
 document.addEventListener("wheel", function (evt) {
-	if (numInput) {// Testing
-		console.log(evt.deltaX);}
+	if (numInput) {
+		changeNum(evt);
+	}
 });  // end on document wheel
 
 // Browser compatibility
 document.addEventListener("mousewheel", function (evt) {
-	if (numInput) {// Testing
-		console.log(evt.deltaX);}
+	if (numInput) {
+		changeNum(evt);
+
+	}
 });  // end on document mousewheel
 
