@@ -87,11 +87,20 @@ var changeNum = function (input) {
 	// got to 0 and below.
 	if (input.type == "wheel") {
 		var changeX = input.deltaX, changeY = input.deltaY, changeZ = input.deltaZ;
+		console.log([changeX, changeY, changeZ]);
 		var changeCombo = changeX + changeY + changeZ;
-		var newNum = (parseFloat(input.target.innerHTML) + Math.floor(-changeCombo/10));
+		var newNum = (parseFloat(input.target.textContent) + Math.floor(-changeCombo/10));
 		console.log(newNum);
-		input.target.innerHTML = newNum.toString();
+		input.target.textContent = newNum.toString();
 	}
+	/* Gets me NaN
+	[5, -19, 0] then 0 then [1, 1, 0] NaN
+	[-0, -122, 0] -87 [-0, -113, 0] NaN
+	[-0, 1, 0] 8 [-0, 1, 0] NaN
+	[3, -22, 0] -254 [-0, -53, 0] NaN
+	[-5, 252, 0] -150 [3, 64, 0] NaN 
+	*/
+	// When zoomed in, sometimes "NaN" is deposited on the next line, not in the number span
 };
 
 //--- EVENT LISTENERS ---\\
@@ -153,7 +162,6 @@ document.addEventListener("wheel", function (evt) {
 document.addEventListener("mousewheel", function (evt) {
 	if (numInput) {
 		changeNum(evt);
-
 	}
 });  // end on document mousewheel
 
