@@ -60,7 +60,7 @@ var placeElems = function (originElem) {
 /* element -> bool
 
 Checks whether parentToSearch is within 5 or fewer ancestors
-of elem.
+of elem (or if elem is parentToSearch).
 */
 var isWithin5Ancestors = function (elem, parentToSearch) {
 	var ancestors = [];
@@ -98,36 +98,29 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	// it's at some weird offset (despite that with no math it ends up at the
 	// very left of the screen)
 	, manipL = numPosL + numPosHzCenter - numManipulator.getBoundingClientRect().width/2
-	;
-
-	// As a child I think some overflow setting affects it so that mousing
-	// out of .cm-number (but still in .num-manip) hits some other element
-	// numInput.appendChild(numManipulator);
 
 	if (!mouseOn) {
 		// Test ()
 		numInput.style.background = "lightblue";
-		// Not test sometime in future
+		// Not test
 		// Position element in the right place
 		numManipulator.style.left = manipL + "px";
 		numManipulator.style.top = (numPosB - 1) + "px"; //"0px";
 		// Make it appear
-		// Visibility handled in styles.css .cm-number:hover .num-manip
 		numManipulator.style.visibility = "visible";
 
 		mouseOn = true;
 	}
-	else if (mouseOn && evt.target != numInput && evt.target != numManipulator) {
+	else if ( mouseOn && evt.target != numInput && evt.target != numManipulator) {
 		// Test
 		numInput.style.background = "none";
 
 	// When I mouse past span, I get into a different div despite still being
 	// in num-manip. Maybe span has overflow none or something? It also happened
 	// when the div was not a child of cm-number
-	console.log(evt.target);
-		// Not test sometime in future
+
+		// Not test
 		// Hide element
-		// Visibility handled in styles.css .cm-number:hover .num-manip
 		numManipulator.style.visibility = "hidden";
 
 		mouseOn = false;
@@ -138,7 +131,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	return mouseOn;
 };
 
-/* (event, num) -> None
+/* (event, num) -> null or String
 
 Adds or subtracts integers to a number in the codemirror editing
 element. If it's an event, it uses input's deltas to do so,
@@ -146,10 +139,10 @@ otherwise it treats input as a number value.
 */
 var changeNum = function (input) {
 	// We're having some trouble here for some reason. Scrolling down
-	// sometimes turns the whole line into NaN (not just the number).
-	// Seems to happen when scrolling down slowly. Scrolling down quickly
-	// works fine. Lowest I got going slowly was "2", when scrolling faster
-	// got to 0 and below.
+	// sometimes turns the whole line or the next one into NaN
+	// (not just the number). Seems to happen when scrolling down
+	// slowly. Scrolling down quickly works fine. Lowest I got going
+	// slowly was "2", when scrolling faster got to 0 and below.
 	if (input.type == "wheel") {
 		var changeX = input.deltaX, changeY = input.deltaY * -1, changeZ = input.deltaZ;
 		// Combine the number, decrease it, then truncate it
@@ -243,7 +236,7 @@ document.addEventListener("mousewheel", function (evt) {
 
 
 // --- TESTS --- \\
-var TESTING = true;
+var TESTING = false;
 
 if (TESTING) {
 	console.log("Testing isWithin5Ancestors()\nExpected:\ntrue\nfalse\nActual:");
