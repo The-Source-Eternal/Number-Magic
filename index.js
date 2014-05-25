@@ -132,46 +132,51 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	return mouseOn;
 };
 
-/* (event, num) -> null or String
+/* (event, element, num) -> null or String
 
 Adds or subtracts integers to a number in the codemirror editing
 element. If it's an event, it uses input's deltas to do so,
-otherwise it treats input as a number value.
+otherwise it adds num to the number.
 */
-var changeNum = function (input) {
+var changeNum = function (evt, numElem, num) {
 	// We're having some trouble here for some reason. Scrolling down
 	// sometimes turns the whole line or the next one into NaN
 	// (not just the number). Seems to happen when scrolling down
 	// slowly. Scrolling down quickly works fine. Lowest I got going
 	// slowly was "2", when scrolling faster got to 0 and below.
-	if (input.type == "wheel") {
-		var changeX = input.deltaX, changeY = input.deltaY * -1, changeZ = input.deltaZ;
+	if (evt.type == "wheel") {
+		var changeX = evt.deltaX, changeY = evt.deltaY * -1, changeZ = evt.deltaZ;
 		// Combine the number, decrease it, then truncate it
 		var changeCombo = (changeX + changeY + changeZ)/5
 		, comboAbs = Math.abs(changeCombo)
 		, comboSign = changeCombo/comboAbs || 1
 		, changeComboInt = comboSign * (comboAbs - (comboAbs % 1));
 
-		var newNum = (parseFloat(input.target.textContent)
+		var newNum = (parseFloat(evt.target.textContent)
 			+ changeComboInt);
 		// When the mouse doesn't move, but the number gets smaller and
 		// and the mouse is no longer over it, it goes out of bounds,
 		// but this funciton is still called. Stop that from ruining stuff.
 		if (!isNaN(newNum)){
-			input.target.textContent = newNum.toString();
+			evt.target.textContent = newNum.toString();
 			return "same";
 		}
-		// If it is out of bounds, we want to change the numInput
+		// If it is out of bounds, we want to change the numElem
 		// !!! DO I NEED THIS?
 		else {return null;}
 	}
-
-	else {return "function not done yet";}
+	// If the number was an int instead
+	else {
+		var newNum = (parseFloat(numElem.textContent) + num);
+		numElem.textContent = newNum.toString();
+		return "same";
+	}
 };
 
 //--- EVENT LISTENERS ---\\
 var numInput = null, mouseOn = false;
 
+// -- num-manip Event Listeners -- \\
 // document mousemove event listener. I don't know what else to do.
 // Things will be dynamically generated.
 // !!! HAVE TO FIGURE OUT WHAT HAPPENS WHEN TABBING THROUGH INPUTS OR
@@ -217,6 +222,7 @@ document.addEventListener("mousemove",
 // 		}
 // });  // end on document focus
 
+// -- num-manip Wheel/Scrolling Event Listeners -- \\
 // DETECT WHEEL EVENT ON NUMBERS (only know it detects trackpad two finger)
 // Latest Chrome and Firefox take "wheel", neither works in
 // Safari (05/24/14)
@@ -235,6 +241,18 @@ document.addEventListener("mousewheel", function (evt) {
 	}
 });  // end on document mousewheel
 
+// -- manip-arrow Event Listeners -- \\
+document.addEventListener("click", function (evt) {
+	// Decrease number when left arrow is clicked
+	if (hasClass("manip-left", evt.target)) {
+		if (numInput) {changeNum(evt, numInput, -1);}
+	}
+
+	// Increase number when right arrow is clicked
+	if (hasClass("manip-right", evt.target)) {
+			if (numInput) {changeNum(evt, numInput, 1);}
+	}
+});
 
 // --- TESTS --- \\
 var TESTING = false;
@@ -248,4 +266,3 @@ if (TESTING) {
 	console.log(isWithin5Ancestors(document.getElementsByClassName("CodeMirror")[0],
 		document.getElementsByClassName("num-manip")[0]));
 }
-
