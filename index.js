@@ -49,12 +49,31 @@ var hasClass = function (selector, element) {
 };
 
 
-/*
+/* (element, element) -> (None)
 
+Places the number manipulation element relative to
+the element it's currently affecting, inputNum
 */
+var placeNumManip = function (inputNum) {
+	var numManipulator = document.getElementsByClassName("num-manip")[0];
 
-var placeElems = function (originElem) {
+	// For a really long number it will be annoying to go to
+	// the center of the number to get to manipulate it :P
+	// That should be rare though
+	var numPosLeft = numInput.getBoundingClientRect().left
+	, numPosBottom = numInput.getBoundingClientRect().bottom
+	, numPosHzCenter = numInput.getBoundingClientRect().width/2
 
+	// When a child of numInput, it's not at the center of every number,
+	// it's at some weird offset (despite that with no math it ends up at the
+	// very left of the screen)
+	, manipLeft = numPosLeft + numPosHzCenter
+		- numManipulator.getBoundingClientRect().width/2
+	;
+
+	// Position number manipulation element in the right place
+	numManipulator.style.left = manipLeft + "px";
+	numManipulator.style.top = (numPosBottom - 2) + "px"; //"0px";
 };
 
 /* element -> bool
@@ -86,24 +105,9 @@ number
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	var numManipulator = document.getElementsByClassName("num-manip")[0];
 
-	// For a really long number it will be incredibly annoying
-	// to go to the center of the number to get to manipulate it :P
-	// That should be rare though
-	var numPosL = numInput.getBoundingClientRect().left
-	, numPosT = numInput.getBoundingClientRect().top
-	, numPosB = numInput.getBoundingClientRect().bottom
-	, numPosHzCenter = numInput.getBoundingClientRect().width/2
-	, numPosHeight = numInput.getBoundingClientRect().height
-
-	// When a child of numInput, it's not at the center of every number,
-	// it's at some weird offset (despite that with no math it ends up at the
-	// very left of the screen)
-	, manipL = numPosL + numPosHzCenter - numManipulator.getBoundingClientRect().width/2
-
 	if (!mouseOn) {
 		// Position element in the right place
-		numManipulator.style.left = manipL + "px";
-		numManipulator.style.top = (numPosB - 2) + "px"; //"0px";
+		placeNumManip(numInput);
 		// Make it appear
 		numManipulator.style.visibility = "visible";
 
