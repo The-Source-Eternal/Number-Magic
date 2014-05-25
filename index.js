@@ -111,6 +111,13 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
 		mouseOn = true;
 	}
+
+	// Why does the numManipulator disappear but the background
+	// doesn't go away when a number right underneath or right
+	// above is moused over?
+
+	// Basically, only reset stuff if neither numInput nor
+	// numManipulator has the mouse on it
 	else if ( mouseOn && evt.target != numInput
 		&& !isWithin5Ancestors(evt.target, numManipulator) ) {
 		// Test
