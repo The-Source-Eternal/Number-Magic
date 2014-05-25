@@ -100,37 +100,26 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	, manipL = numPosL + numPosHzCenter - numManipulator.getBoundingClientRect().width/2
 
 	if (!mouseOn) {
-		// Test ()
-		numInput.style.background = "lightblue";
-		// Not test
 		// Position element in the right place
 		numManipulator.style.left = manipL + "px";
 		numManipulator.style.top = (numPosB - 1) + "px"; //"0px";
 		// Make it appear
 		numManipulator.style.visibility = "visible";
 
+		// Don't reset numInput
 		mouseOn = true;
 	}
-
-	// Why does the numManipulator disappear but the background
-	// doesn't go away when a number right underneath or right
-	// above is moused over?
 
 	// Basically, only reset stuff if neither numInput nor
 	// numManipulator has the mouse on it
 	else if ( mouseOn && evt.target != numInput
 		&& !isWithin5Ancestors(evt.target, numManipulator) ) {
-		// Test
-		numInput.style.background = "none";
-
-		// Not test
 		// Hide element
 		numManipulator.style.visibility = "hidden";
 
+		// Do reset numInput
 		mouseOn = false;
 	}
-	// For testing
-	// else {console.log("That was not a number");}
 
 	return mouseOn;
 };
@@ -176,11 +165,13 @@ var changeNum = function (evt, numElem, num) {
 		else {return null;}
 	}
 	// If the number was an int instead
-	else {
+	else if ((typeof num) == "number") {
 		var newNum = (parseFloat(numElem.textContent) + num);
 		numElem.textContent = newNum.toString();
 		return "same";
 	}
+	// Otherwise, express an error
+	else {console.log("You didn't give the right input to changeNum.");}
 };
 
 //--- EVENT LISTENERS ---\\
