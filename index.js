@@ -126,6 +126,8 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		numManipulator.style.visibility = "hidden";
 	}
 
+	else {console.log("Something's wrong in toggleNumManipulator()");}
+
 	return mouseOn;
 };
 
