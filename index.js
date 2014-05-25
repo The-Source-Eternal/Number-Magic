@@ -141,13 +141,20 @@ var changeNum = function (evt, numElem, num) {
 	// slowly. Scrolling down quickly works fine. Lowest I got going
 	// slowly was "2", when scrolling faster got to 0 and below.
 	if (evt.type == "wheel") {
+		// Mouse direction and speed, vertical sign change
 		var changeX = evt.deltaX, changeY = evt.deltaY * -1, changeZ = evt.deltaZ;
 		// Combine the number, decrease it, then truncate it
-		var changeCombo = (changeX + changeY + changeZ)/5
+		var changeCombo = (changeX + changeY + changeZ)/2
+		// I don't completely understand this, it's apparently the most reliable way
+		, comboSign = changeCombo < 0 ? -1:1
 		, comboAbs = Math.abs(changeCombo)
-		, comboSign = changeCombo/comboAbs || 1
-		, changeComboInt = comboSign * (comboAbs - (comboAbs % 1));
+		, changeComboInt = comboSign * (comboAbs - (comboAbs % 1))
+		;
 
+		// This doesn't have the balance I want, but further change
+		// would be much more complex
+
+		// Add the amount it needs to change to the old number
 		var newNum = (parseFloat(numElem.textContent)
 			+ changeComboInt);
 		// When the mouse doesn't move, but the number gets smaller and
