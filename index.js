@@ -111,7 +111,8 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
 		mouseOn = true;
 	}
-	else if ( mouseOn && evt.target != numInput && evt.target != numManipulator) {
+	else if ( mouseOn && evt.target != numInput
+		&& !isWithin5Ancestors(evt.target, numManipulator) ) {
 		// Test
 		numInput.style.background = "none";
 
