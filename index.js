@@ -56,8 +56,6 @@ Should reveal and hide a number field's manipulation ui
 */
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
-	console.log(evt.target);
-
 	// For a really long number it will be incredibly annoying
 	// to go to the center of the number to get to manipulate it :P
 	var numPosL = numInput.getBoundingClientRect().left
@@ -66,12 +64,9 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	, numPosHeight = numInput.getBoundingClientRect().height
 
 	// Why don't I have to add numPosHzCenter to numPosL first?
-	// For some reason posL is in the center of the number
+	// It's not at the center of every number, it's at some weird offset
 	, manipL = numPosL - numManipulator.getBoundingClientRect().width/2
 	;
-
-	console.log(numPosL, numPosHzCenter, numManipulator.getBoundingClientRect().width/2);
-
 
 	numInput.appendChild(numManipulator);
 	// console.log(numManipulator.getBoundingClientRect().width/2);
@@ -86,16 +81,20 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		numManipulator.style.left = (manipL) + "px";
 		numManipulator.style.top = "0px"; //numPosT + "px";
 		// Make it appear
-		numManipulator.style.visibility = "visible";
+		// Visibility handled in styles.css .cm-number:hover .num-manip
+		// numManipulator.style.visibility = "visible";
 
 		mouseOn = true;
 	}
 	else if (mouseOn && evt.target != numInput && evt.target != numManipulator) {
 		// Test
 		numInput.style.background = "none";
+
+	console.log(evt.target);
 		// Not test sometime in future
 		// Hide element
-		numManipulator.style.visibility = "hidden";
+		// Visibility handled in styles.css .cm-number:hover .num-manip
+		// numManipulator.style.visibility = "hidden";
 
 		mouseOn = false;
 	}
