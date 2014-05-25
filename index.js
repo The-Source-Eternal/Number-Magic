@@ -20,9 +20,16 @@ var codeEditor = CodeMirror(document.body, {
 
 // numManipulator will move and change depending on the element
 var numManipulator = document.createElement("div");
-numManipulator.className = "num-manip";
-// !!! APPEND TO CODE MIRROR INSTEAD
+numManipulator.className = "code-widget num-manip";
+// !!! APPEND TO CODE MIRROR INSTEAD?
 document.body.appendChild(numManipulator);
+// Add a left and right arrow for navigation
+var manipLeft = document.createElement("div");
+manipLeft.className = "code-button manip-arrow manip-left";
+var manipRight = document.createElement("div");
+manipRight.className = "code-button manip-arrow manip-right";
+numManipulator.appendChild(manipLeft);
+numManipulator.appendChild(manipRight);
 
 //--- FUNCTIONS ---\\ (has to come before calling the functions)
 /* (string, element) -> bool
@@ -49,6 +56,11 @@ var hasClass = function (selector, element) {
 var placeElems = function (originElem) {
 
 };
+
+var is5Ancestor = function (elem) {
+	var parents = [];
+	nodes.push(elem);
+}
 
 /* (event, bool, element) -> bool
 

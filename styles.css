@@ -7,14 +7,32 @@
 	height: 100%;
 }
 
+.code-widget {
+	background-color: red;
+}
+
 .num-manip {
+	visibility: hidden;
 	position: absolute;
 	width: 2rem;
 	height: .7rem;
-	background-color: red;
-	visibility: hidden;
 	z-index: 100;
 }
 
-/* This means .num-manip nees to be a child of cm-number */
-/*.cm-number:hover .num-manip {visibility: visible;}*/
+.manip-arrow {
+	float: left;
+	width: 50%;
+	height: 100%;
+}
+
+.manip-left {
+	/*image*/
+}
+
+.manip-right {
+	/*image*/
+}
+
+.code-button {
+	background-color: blue;
+}
