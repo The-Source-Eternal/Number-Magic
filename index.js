@@ -193,7 +193,6 @@ document.addEventListener("mousemove", function (evt) {
 		numInput = evt.target;
 	}
 
-
 	// Only run the num input checker if we're on a num input
 	if (numInput) {
 		// - Handle dragging - \\ (maybe needs its own function)
@@ -225,7 +224,6 @@ document.addEventListener("mousemove", function (evt) {
 			// Reset numInput so this isn't run again
 			numInput = null;
 		}
-
 	}
 });  // end on document mousemove
 
