@@ -178,6 +178,7 @@ var changeNum = function (evt, numElem, num) {
 
 //--- EVENT LISTENERS ---\\
 var numInput = null, mouseOn = false, inputLock = false;
+var oldMousePos = null, newMousePos = null;
 
 // -- num-manip Event Listeners -- \\
 // document mousemove event listener. I don't know what else to do.
@@ -192,9 +193,27 @@ document.addEventListener("mousemove", function (evt) {
 		numInput = evt.target;
 	}
 
-	// Releasig the mouse element
+
 	// Only run the num input checker if we're on a num input
 	if (numInput) {
+		// - Handle dragging - \\ (maybe needs its own function)
+		// If the arrows are being dragged, change the number
+		if (inputLock) {
+			// Getting values for drag
+			newMousePos = [evt.clientX, evt.clientY];
+			// Get number change
+			mouseDiffX = -(oldMousePos[0] - newMousePos[0]);
+			mouseDiffY = oldMousePos[1] - newMousePos[1];
+			// Combine horizontal and vertical change
+			var num = mouseDiffX + mouseDiffY;
+			// Change the value in the number elem
+			var newNum = (parseFloat(numInput.textContent) + num);
+			numInput.textContent = newNum.toString();
+			// Prepare stuff for math to work next time too
+			oldMousePos = newMousePos;
+		}
+
+		// - Releasig the number element - \\
 		// Keep all this inputLock/mouseOn business in the family
 		if (!inputLock) {
 			mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
@@ -206,6 +225,7 @@ document.addEventListener("mousemove", function (evt) {
 			// Reset numInput so this isn't run again
 			numInput = null;
 		}
+
 	}
 });  // end on document mousemove
 
@@ -265,10 +285,17 @@ document.addEventListener("click", function (evt) {
 document.addEventListener("mousedown", function (evt) {
 	if (hasClass("manip-arrow", evt.target)) {
 		inputLock = true;
+		// Get initial mouse position
+		oldMousePos = [evt.clientX, evt.clientY];
 	}
-
 	// So that other things don't get selected:
 	evt.preventDefault();
+
+	// changeNum = Difference between old mouse pos and new mouse pos
+	// divided by something
+	// Add that to the num
+	// evt.clientY
+	// evt.clientX
 });
 
 document.addEventListener("mouseup", function (evt) {
