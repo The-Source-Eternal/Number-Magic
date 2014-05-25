@@ -84,6 +84,7 @@ position of numInput, testing if the mouse is on or off this
 number
 */
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
+	var numManipulator = document.getElementsByClassName("num-manip")[0];
 
 	// For a really long number it will be incredibly annoying
 	// to go to the center of the number to get to manipulate it :P
