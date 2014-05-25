@@ -57,9 +57,24 @@ var placeElems = function (originElem) {
 
 };
 
-var is5Ancestor = function (elem) {
-	var parents = [];
-	nodes.push(elem);
+/* element -> bool
+
+Checks whether parentToSearch is within 5 or fewer ancestors
+of elem.
+*/
+var isWithin5Ancestors = function (elem, parentToSearch) {
+	var ancestors = [];
+	// This will soon be an ancestor of this elem
+	// Need to keep elem the same to check against later
+	var ancestor = elem;
+	ancestors.push(elem);
+	for (var indx = 0; indx < 5; indx++) {
+		if (ancestor.parentNode) {
+			ancestors.push(ancestor.parentNode);
+			ancestor = ancestor.parentNode;
+		}
+	}
+	return (ancestors.indexOf(parentToSearch) != -1);
 }
 
 /* (event, bool, element) -> bool
@@ -225,4 +240,18 @@ document.addEventListener("mousewheel", function (evt) {
 		changeNum(evt);
 	}
 });  // end on document mousewheel
+
+
+// --- TESTS --- \\
+var TESTING = true;
+
+if (TESTING) {
+	console.log("Testing isWithin5Ancestors()\nExpected:\ntrue\nfalse\nActual:");
+	// should return true
+	console.log(isWithin5Ancestors(document.getElementsByClassName("manip-right")[0],
+		document.getElementsByClassName("num-manip")[0]));
+	// should return false
+	console.log(isWithin5Ancestors(document.getElementsByClassName("CodeMirror")[0],
+		document.getElementsByClassName("num-manip")[0]));
+}
 
