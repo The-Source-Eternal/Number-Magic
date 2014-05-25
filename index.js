@@ -102,7 +102,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	if (!mouseOn) {
 		// Position element in the right place
 		numManipulator.style.left = manipL + "px";
-		numManipulator.style.top = (numPosB - 1) + "px"; //"0px";
+		numManipulator.style.top = (numPosB - 2) + "px"; //"0px";
 		// Make it appear
 		numManipulator.style.visibility = "visible";
 
@@ -184,10 +184,16 @@ var oldMousePos = null, newMousePos = null;
 // !!! HAVE TO FIGURE OUT WHAT HAPPENS WHEN TABBING THROUGH INPUTS OR
 // MOVING CURSOR AROUND TEXT !!!
 document.addEventListener("mousemove", function (evt) {
- 	// -- Number Manipulation -- \\
- 	// Capturing the number element
- 	// Whenever a number input is moused over, make it the current numInput
-	if (hasClass("cm-number", evt.target)) {
+	// -- Number Manipulation -- \\
+
+	// Capturing the number element
+	// Whenever a number input is moused over, make it the current numInput
+// !!! MAYBE THIS CAN BE USED INSTEAD OF mouseOn, BUT ONLY IF I CAN MAKE IT WORK
+	if (hasClass("cm-number", evt.target)
+	&& evt.target != numInput) {
+		console.log("Moused over cm-number");
+		console.log(evt.target == numInput);
+		mouseOn = false;
 		numInput = evt.target;
 	}
 
