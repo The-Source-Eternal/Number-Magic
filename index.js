@@ -116,10 +116,6 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		// Test
 		numInput.style.background = "none";
 
-	// When I mouse past span, I get into a different div despite still being
-	// in num-manip. Maybe span has overflow none or something? It also happened
-	// when the div was not a child of cm-number
-
 		// Not test
 		// Hide element
 		numManipulator.style.visibility = "hidden";
@@ -174,31 +170,36 @@ var changeNum = function (evt, numElem, num) {
 };
 
 //--- EVENT LISTENERS ---\\
-var numInput = null, mouseOn = false;
+var numInput = null, mouseOn = false, inputLock = false;
 
 // -- num-manip Event Listeners -- \\
 // document mousemove event listener. I don't know what else to do.
 // Things will be dynamically generated.
 // !!! HAVE TO FIGURE OUT WHAT HAPPENS WHEN TABBING THROUGH INPUTS OR
 // MOVING CURSOR AROUND TEXT !!!
-document.addEventListener("mousemove",
-	 function(evt) {
+document.addEventListener("mousemove", function (evt) {
+ 	// -- Number Manipulation -- \\
+ 	// Capturing the number element
+ 	// Whenever a number input is moused over, make it the current numInput
+	if (hasClass("cm-number", evt.target)) {
+		numInput = evt.target;
+	}
 
-	 	// -- Number Manipulation -- \\
-	 	// Whenever a number input is moused over, make it the current numInput
-		if (hasClass("cm-number", evt.target)) {
-			numInput = evt.target;
-		}
-
-		// Only run the num input checker if we're on a num input
-		if (numInput) {
+	// Releasig the mouse element
+	// Only run the num input checker if we're on a num input
+	if (numInput) {
+		// Keep all this inputLock/mouseOn business in the family
+		if (!inputLock) {
 			mouseOn = toggleNumManipulator(evt, mouseOn, numInput);
-			// If the mouse is no longer on numInput
-			if (!mouseOn && numInput) {
-				// Reset numInput so this isn't run again
-				numInput = null;
-			}
 		}
+		else {mouseOn = true;}
+
+		// If the mouse is no longer on numInput
+		if (!mouseOn && numInput) {
+			// Reset numInput so this isn't run again
+			numInput = null;
+		}
+	}
 });  // end on document mousemove
 
 // FOR TABBING THROUGH INPUTS? (test implementation later)
@@ -252,6 +253,26 @@ document.addEventListener("click", function (evt) {
 	if (hasClass("manip-right", evt.target)) {
 			if (numInput) {changeNum(evt, numInput, 1);}
 	}
+});
+
+document.addEventListener("mousedown", function (evt) {
+	if (hasClass("manip-arrow", evt.target)) {
+		console.log("doc mousedown");
+		inputLock = true;
+	}
+
+	evt.stopPropagation();
+	evt.preventDefault();
+});
+
+document.addEventListener("mouseup", function (evt) {
+	console.log("doc mouseup");
+	inputLock = false;
+});
+
+document.addEventListener("mouseleave", function (evt) {
+	console.log("doc mouseleave");
+	inputLock = false;
 });
 
 // --- TESTS --- \\
