@@ -50,28 +50,27 @@ var placeElems = function (originElem) {
 
 };
 
-/* (event, bool, element) -> none
+/* (event, bool, element) -> bool
 
-Should reveal and hide a number field's manipulation ui
+Should reveal and hide a number's manipulator ui using the
+position of numInput, testing if the mouse is on or off this
+number
 */
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
 	// For a really long number it will be incredibly annoying
 	// to go to the center of the number to get to manipulate it :P
+	// That should be rare though
 	var numPosL = numInput.getBoundingClientRect().left
 	, numPosT = numInput.getBoundingClientRect().top
 	, numPosHzCenter = numInput.getBoundingClientRect().width/2
 	, numPosHeight = numInput.getBoundingClientRect().height
 
-	// Why don't I have to add numPosHzCenter to numPosL first?
 	// It's not at the center of every number, it's at some weird offset
-	, manipL = numPosL - numManipulator.getBoundingClientRect().width/2
+	, manipL = numPosL + numPosHzCenter - numManipulator.getBoundingClientRect().width/2
 	;
 
 	numInput.appendChild(numManipulator);
-	// console.log(numManipulator.getBoundingClientRect().width/2);
-	// Also bottom and right
-	// console.log(numInput.getBoundingClientRect());
 
 	if (!mouseOn) {
 		// Test ()
@@ -90,6 +89,9 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		// Test
 		numInput.style.background = "none";
 
+	// When I mouse past span, I get into a different div despite still being
+	// in num-manip. Maybe span has overflow none or something? It also happened
+	// when the div was not a child of cm-number
 	console.log(evt.target);
 		// Not test sometime in future
 		// Hide element
@@ -100,6 +102,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	}
 	// For testing
 	// else {console.log("That was not a number");}
+
 	return mouseOn;
 };
 

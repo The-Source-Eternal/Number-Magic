@@ -15,4 +15,5 @@
 	visibility: hidden;
 }
 
+/* This means .num-manip nees to be a child of cm-number */
 .cm-number:hover .num-manip {visibility: visible;};
