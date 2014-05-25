@@ -148,13 +148,13 @@ var changeNum = function (evt, numElem, num) {
 		, comboSign = changeCombo/comboAbs || 1
 		, changeComboInt = comboSign * (comboAbs - (comboAbs % 1));
 
-		var newNum = (parseFloat(evt.target.textContent)
+		var newNum = (parseFloat(numElem.textContent)
 			+ changeComboInt);
 		// When the mouse doesn't move, but the number gets smaller and
 		// and the mouse is no longer over it, it goes out of bounds,
 		// but this funciton is still called. Stop that from ruining stuff.
 		if (!isNaN(newNum)){
-			evt.target.textContent = newNum.toString();
+			numElem.textContent = newNum.toString();
 			return "same";
 		}
 		// If it is out of bounds, we want to change the numElem
@@ -230,7 +230,7 @@ document.addEventListener("mousemove", function (evt) {
 document.addEventListener("wheel", function (evt) {
 	if (numInput) {
 		// Should I change numInput when NaN?
-		changeNum(evt);
+		changeNum(evt, numInput);
 	}
 });  // end on document wheel
 
@@ -238,7 +238,7 @@ document.addEventListener("wheel", function (evt) {
 document.addEventListener("mousewheel", function (evt) {
 	if (numInput) {
 		// Should I change numInput when NaN?
-		changeNum(evt);
+		changeNum(evt, numInput);
 	}
 });  // end on document mousewheel
 
