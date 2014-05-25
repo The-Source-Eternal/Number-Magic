@@ -10,10 +10,11 @@
 .num-manip {
 	position: absolute;
 	width: 2rem;
-	height: 1.7rem;
+	height: .7rem;
 	background-color: red;
 	visibility: hidden;
+	z-index: 100;
 }
 
 /* This means .num-manip nees to be a child of cm-number */
-.cm-number:hover .num-manip {visibility: visible;};
+/*.cm-number:hover .num-manip {visibility: visible;}*/

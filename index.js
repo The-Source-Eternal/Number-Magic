@@ -63,25 +63,30 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	// That should be rare though
 	var numPosL = numInput.getBoundingClientRect().left
 	, numPosT = numInput.getBoundingClientRect().top
+	, numPosB = numInput.getBoundingClientRect().bottom
 	, numPosHzCenter = numInput.getBoundingClientRect().width/2
 	, numPosHeight = numInput.getBoundingClientRect().height
 
-	// It's not at the center of every number, it's at some weird offset
+	// When a child of numInput, it's not at the center of every number,
+	// it's at some weird offset (despite that with no math it ends up at the
+	// very left of the screen)
 	, manipL = numPosL + numPosHzCenter - numManipulator.getBoundingClientRect().width/2
 	;
 
-	numInput.appendChild(numManipulator);
+	// As a child I think some overflow setting affects it so that mousing
+	// out of .cm-number (but still in .num-manip) hits some other element
+	// numInput.appendChild(numManipulator);
 
 	if (!mouseOn) {
 		// Test ()
 		numInput.style.background = "lightblue";
 		// Not test sometime in future
 		// Position element in the right place
-		numManipulator.style.left = (manipL) + "px";
-		numManipulator.style.top = "0px"; //numPosT + "px";
+		numManipulator.style.left = manipL + "px";
+		numManipulator.style.top = (numPosB - 1) + "px"; //"0px";
 		// Make it appear
 		// Visibility handled in styles.css .cm-number:hover .num-manip
-		// numManipulator.style.visibility = "visible";
+		numManipulator.style.visibility = "visible";
 
 		mouseOn = true;
 	}
@@ -96,7 +101,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		// Not test sometime in future
 		// Hide element
 		// Visibility handled in styles.css .cm-number:hover .num-manip
-		// numManipulator.style.visibility = "hidden";
+		numManipulator.style.visibility = "hidden";
 
 		mouseOn = false;
 	}
