@@ -264,21 +264,18 @@ document.addEventListener("click", function (evt) {
 
 document.addEventListener("mousedown", function (evt) {
 	if (hasClass("manip-arrow", evt.target)) {
-		console.log("doc mousedown");
 		inputLock = true;
 	}
 
-	evt.stopPropagation();
+	// So that other things don't get selected:
 	evt.preventDefault();
 });
 
 document.addEventListener("mouseup", function (evt) {
-	console.log("doc mouseup");
 	inputLock = false;
 });
 
 document.addEventListener("mouseleave", function (evt) {
-	console.log("doc mouseleave");
 	inputLock = false;
 });
 
