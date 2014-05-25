@@ -2,15 +2,7 @@
 	05/18/2014
 	Sources:
 */
-
-.CodeMirror {
-	height: 100%;
-}
-
-.code-widget {
-	background-color: red;
-}
-
+/* --- STRUCTURE --- */
 .num-manip {
 	visibility: hidden;
 	position: absolute;
@@ -25,14 +17,19 @@
 	height: 100%;
 }
 
+/* --- SKIN --- */
+.code-widget {
+	background-color: red;
+}
+
+.code-button {
+	background-color: blue;
+}
+
 .manip-left {
 	/*image*/
 }
 
 .manip-right {
 	/*image*/
-}
-
-.code-button {
-	background-color: blue;
 }
