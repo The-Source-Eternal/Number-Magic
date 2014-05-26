@@ -5,6 +5,7 @@
 	(1) http://codemirror.net
 	(2) http://stackoverflow.com/questions/19655189/javascript-click-event-listener-on-class
 	(3) http://james.padolsey.com/jquery/#v=1.5.0&fn=jQuery.fn.hasClass
+	(4) http://www.flaticon.com/free-icon/small-ascending-thin-arrow_7607 (more arrows)
 
 	Notes:
 	(1) The class I'm looking for in Code Mirror is cm-number
@@ -27,10 +28,10 @@ numManipulator.className = "code-widget num-manip";
 document.body.appendChild(numManipulator);
 // Add a left and right arrow for navigation
 var manipLeft = document.createElement("img");
-manipLeft.src = "Flaticon_7607.png";
+manipLeft.src = "arrow.png";
 manipLeft.className = "code-button manip-arrow manip-left";
 var manipRight = document.createElement("img");
-manipRight.src = "Flaticon_7607.png";
+manipRight.src = "arrow.png";
 manipRight.className = "code-button manip-arrow manip-right";
 numManipulator.appendChild(manipLeft);
 numManipulator.appendChild(manipRight);
