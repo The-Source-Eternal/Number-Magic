@@ -117,9 +117,6 @@ number
 var toggleNumManipulator = function (evt, mouseOn, numInput) {
 	var numManipulator = document.getElementsByClassName("num-manip")[0];
 
-	// Do reset numInput if this isn't changed between now and the end
-	mouseOn = false;
-
 	if (!mouseOn) {
 		// Position element in the right place
 		placeNumManip(numInput);
@@ -138,10 +135,9 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		// Hide element
 		numManipulator.style.visibility = "hidden";
 
-		// mouseOn = false;
+		// Reset numInput
+		mouseOn = false;
 	}
-
-	else {console.log("Something's wrong in toggleNumManipulator()");}
 
 	return mouseOn;
 };
