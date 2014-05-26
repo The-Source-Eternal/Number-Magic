@@ -26,12 +26,19 @@ numManipulator.className = "code-widget num-manip";
 // !!! APPEND TO CODE MIRROR INSTEAD?
 document.body.appendChild(numManipulator);
 // Add a left and right arrow for navigation
-var manipLeft = document.createElement("div");
+var manipLeft = document.createElement("img");
+manipLeft.src = "Flaticon_7607.png";
 manipLeft.className = "code-button manip-arrow manip-left";
-var manipRight = document.createElement("div");
+var manipRight = document.createElement("img");
+manipRight.src = "Flaticon_7607.png";
 manipRight.className = "code-button manip-arrow manip-right";
 numManipulator.appendChild(manipLeft);
 numManipulator.appendChild(manipRight);
+
+// Attribution
+var attribution = document.createElement("div");
+attribution.innerHTML = '<div>[Arrow] Icon made by <a href="http://www.flaticon.com/free-icon/small-ascending-thin-arrow_7607" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>';
+document.body.appendChild(attribution);
 
 //--- FUNCTIONS ---\\ (has to come before calling the functions)
 /* (string, element) -> bool
@@ -122,12 +129,15 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		mouseOn = true;
 	}
 
+// !!! CHANGE THIS BACK TO MAKE IT STOP STICKING!!!
 	// Basically, only reset stuff if neither numInput nor
 	// numManipulator has the mouse on it
 	else if ( mouseOn && evt.target != numInput
 		&& !isWithin5Ancestors(evt.target, numManipulator) ) {
 		// Hide element
 		numManipulator.style.visibility = "hidden";
+
+		// mouseOn = false;
 	}
 
 	else {console.log("Something's wrong in toggleNumManipulator()");}

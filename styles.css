@@ -7,8 +7,8 @@
 .num-manip {
 	visibility: hidden;
 	position: absolute;
-	width: 1.4rem;
-	height: .7rem;
+	width: 2rem;
+	height: 1rem;
 	z-index: 100;
 }
 
@@ -16,21 +16,40 @@
 	float: left;
 	width: 50%;
 	height: 100%;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.manip-left {
+	-moz-transform:rotate(-90deg);  /* Firefox */
+	-webkit-transform:rotate(-90deg);  /* Safari and Chrome */
+	-o-transform:rotate(-90deg);  /* Opera */
+	-ms-transform:rotate(-90deg);  /* IE9 */
+	/*filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476);*/  /* IE6,IE7 */
+	/*-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";*/  /* IE8 */
+}
+
+.manip-right {
+	-moz-transform:rotate(90deg);  /* Firefox */
+	-webkit-transform:rotate(90deg);  /* Safari and Chrome */
+	-o-transform:rotate(90deg);  /* Opera */
+	-ms-transform:rotate(90deg);  /* IE9 */
+	/*filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476);*/  /* IE6,IE7 */
+	/*-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";*/  /* IE8 */
 }
 
 /* --- SKIN --- */
 .code-widget {
-	background-color: red;
+	background-color: lightgray;
 }
 
-.code-button {
-	background-color: blue;
+.code-button {}
+
+.code-button:hover {
+	background-color: darkgray;
 }
 
-.manip-left {
-	/*image*/
-}
+.manip-left {}
 
-.manip-right {
-	/*image*/
-}
+.manip-right {}
