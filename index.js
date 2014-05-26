@@ -10,7 +10,7 @@
 	(1) The class I'm looking for in Code Mirror is cm-number
 */
 
-//--- SETUP ---\\
+//--- PRE-SETUP ---\\
 // Code mirror is added in javascript mode
 var codeEditor = CodeMirror(document.body, {
 	value: "function myScript(){return 10;}\n"
@@ -18,6 +18,8 @@ var codeEditor = CodeMirror(document.body, {
 	, stylesheet: "css/sqlcolors.css"
 });
 
+// --- MODULE STARTS --- \\
+//--- SETUP ---\\
 // numManipulator will move and change depending on the element
 var numManipulator = document.createElement("div");
 numManipulator.className = "code-widget num-manip";
@@ -76,7 +78,8 @@ var placeNumManip = function (inputNum) {
 	numManipulator.style.top = (numPosBottom - 2) + "px"; //"0px";
 };
 
-/* element -> bool
+
+/* (element, element) -> bool
 
 Checks whether parentToSearch is within 5 or fewer ancestors
 of elem (or if elem is parentToSearch).
@@ -95,6 +98,7 @@ var isWithin5Ancestors = function (elem, parentToSearch) {
 	}
 	return (ancestors.indexOf(parentToSearch) != -1);
 }
+
 
 /* (event, bool, element) -> bool
 
@@ -130,6 +134,7 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 
 	return mouseOn;
 };
+
 
 /* (event, element, num) -> null or String
 
@@ -181,6 +186,7 @@ var changeNum = function (evt, numElem, num) {
 	else {console.log("You didn't give the right input to changeNum.");}
 };
 
+
 //--- EVENT LISTENERS ---\\
 var numInput = null, mouseOn = false, inputLock = false;
 var oldMousePos = null, newMousePos = null;
@@ -193,13 +199,12 @@ var oldMousePos = null, newMousePos = null;
 document.addEventListener("mousemove", function (evt) {
 	// -- Number Manipulation -- \\
 
-	// Capturing the number element
+	// - Capturing the number element - \\
 	// Whenever a number input is moused over, make it the current numInput
 // !!! MAYBE THIS CAN BE USED INSTEAD OF mouseOn, BUT ONLY IF I CAN MAKE IT WORK
-	if (hasClass("cm-number", evt.target)
-	&& evt.target != numInput) {
-		console.log("Moused over cm-number");
-		console.log(evt.target == numInput);
+	if (hasClass("cm-number", evt.target) && evt.target != numInput) {
+		// This mouseOn here is a quick fix till my brain works again
+		// Makes stuff reset if mouse is moved onto a different element
 		mouseOn = false;
 		numInput = evt.target;
 	}
@@ -264,18 +269,14 @@ document.addEventListener("mousemove", function (evt) {
 // Latest Chrome and Firefox take "wheel", neither works in
 // Safari (05/24/14)
 document.addEventListener("wheel", function (evt) {
-	if (numInput) {
-		// Should I change numInput when NaN?
-		changeNum(evt, numInput);
-	}
+	// Should I change numInput when NaN?
+	if (numInput) {changeNum(evt, numInput);}
 });  // end on document wheel
 
 // Browser compatibility?
 document.addEventListener("mousewheel", function (evt) {
-	if (numInput) {
 		// Should I change numInput when NaN?
-		changeNum(evt, numInput);
-	}
+	if (numInput) {changeNum(evt, numInput);}
 });  // end on document mousewheel
 
 // -- manip-arrow Event Listeners -- \\
@@ -289,31 +290,31 @@ document.addEventListener("click", function (evt) {
 	if (hasClass("manip-right", evt.target)) {
 			if (numInput) {changeNum(evt, numInput, 1);}
 	}
-});
+});  // end on document click
 
+// When the mouse is depressed on a number manipulation arrow
+// mouse movement will change the number
 document.addEventListener("mousedown", function (evt) {
 	if (hasClass("manip-arrow", evt.target)) {
+		// Make sure the specific number input doesn't change
 		inputLock = true;
 		// Get initial mouse position
 		oldMousePos = [evt.clientX, evt.clientY];
 	}
 	// So that other things don't get selected:
 	evt.preventDefault();
+	// Everything else is taken care of in document mousemove
+});  // end on document mousedown
 
-	// changeNum = Difference between old mouse pos and new mouse pos
-	// divided by something
-	// Add that to the num
-	// evt.clientY
-	// evt.clientX
-});
-
+// When the mouse button is lifted, the number manipulator deactivates
 document.addEventListener("mouseup", function (evt) {
 	inputLock = false;
-});
+});  // end on document mouseup
 
+// When the document is left, the number manipulator deactivates
 document.addEventListener("mouseleave", function (evt) {
 	inputLock = false;
-});
+});  // end on document mouseleave
 
 // --- TESTS --- \\
 var TESTING = false;
