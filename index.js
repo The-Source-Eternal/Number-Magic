@@ -127,7 +127,6 @@ var toggleNumManipulator = function (evt, mouseOn, numInput) {
 		mouseOn = true;
 	}
 
-// !!! CHANGE THIS BACK TO MAKE IT STOP STICKING!!!
 	// Basically, only reset stuff if neither numInput nor
 	// numManipulator has the mouse on it
 	else if ( mouseOn && evt.target != numInput
@@ -155,9 +154,24 @@ var changeNum = function (evt, numElem, num) {
 	// (not just the number). Seems to happen when scrolling down
 	// slowly. Scrolling down quickly works fine. Lowest I got going
 	// slowly was "2", when scrolling faster got to 0 and below.
-	if (evt.type == "wheel") {
-		// Mouse direction and speed, vertical sign change
-		var changeX = evt.deltaX, changeY = evt.deltaY * -1, changeZ = evt.deltaZ;
+	if (evt.type == "wheel" || evt.type == "mousewheel") {
+		// Mouse direction and speed (speed or just distance?)
+		var changeX, changeY, changeZ;
+
+		// For "wheel"
+		if (evt.deltaX) {
+			changeX = evt.deltaX
+				// deltaY is the opposite of what we need
+				, changeY = evt.deltaY * -1, changeZ = evt.deltaZ;
+		}
+
+		// For "mousewheel", signs are opposite
+		// My Safari seems to be doing everything differently for fun
+		if (evt.wheelDeltaX) {
+			changeX = evt.wheelDeltaX * -1
+				, changeY = evt.wheelDeltaY, changeZ = 0;
+		}
+
 		// Combine the number, decrease it, then truncate it
 		var changeCombo = (changeX + changeY + changeZ)/2
 		// I don't completely understand this, it's apparently the most reliable way
